@@ -6,7 +6,7 @@
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1uAaA5lWmCvd9fcJjRI-m1tfEuYRfNBHL
+View this app via vercel: https://happy-2026-particle-effect.vercel.app/
 
 ## Tool intro
 
