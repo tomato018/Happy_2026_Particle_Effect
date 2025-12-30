@@ -45,8 +45,8 @@ const App: React.FC = () => {
       {/* 指导面板 */}
       <GestureOverlay appState={appState} countdownValue={countdownValue} config={config} />
 
-      {/* 实时反馈组件 - 优化位置为自适应底部偏移 */}
-      <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-40 pointer-events-none w-full flex justify-center px-4">
+      {/* 实时反馈组件 - 位置稍微下移到 15% 处，给中央文字留出更多空间 */}
+      <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 z-40 pointer-events-none w-full flex justify-center px-4">
         <div 
           key={detectedGestureLabel}
           className="px-4 py-2 sm:px-8 sm:py-3 bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)] transition-all animate-in zoom-in duration-300 max-w-xs sm:max-w-none text-center"
@@ -64,7 +64,7 @@ const App: React.FC = () => {
         setAppState={setAppState}
       />
       
-      {/* 底部装饰 - 提高 z-index 确保不被遮挡 */}
+      {/* 底部装饰 */}
       <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-4 opacity-30 z-10">
         <div className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-white" />
         <div className="text-[8px] sm:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.5em] font-light text-white whitespace-nowrap">

@@ -6,20 +6,15 @@
 
 This contains everything you need to run your app locally.
 
-View this app via vercel: https://happy-2026-particle-effect.vercel.app/
+View your app in AI Studio: https://ai.studio/apps/drive/1uAaA5lWmCvd9fcJjRI-m1tfEuYRfNBHL
 
-## Tool intro
+## Run Locally
 
-Hi, this is a new-year-themed particle interaction tool with hand gesture.
-
-Here when you show the emoji "six", you'll see 'Bye 2025' on the screen.
-
-Then when you use hand gesture for countdown (5 to 1), you'll see the how the number changes.
-
-After you use fist, you'll see firework sparkles around and a gradual transition of 'Happy 2026' appearing on the screen.
-
-You can customize your choice about particle size, density, fluidity, and color themes; or you can choose to turn on the camera by changing the default background to your own.
-
-Happy new year and have fun with your family and friends!
+**Prerequisites:**  Node.js
 
 
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

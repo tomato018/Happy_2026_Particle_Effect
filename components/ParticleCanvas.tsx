@@ -77,27 +77,68 @@ const ParticleCanvas: React.FC<Props> = ({ appState, countdownValue, config, onL
   const generateTargets = (text: string, count: number, canvas: HTMLCanvasElement): {x: number, y: number}[] => {
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return [];
+    
     const w = window.innerWidth;
     const h = window.innerHeight;
-    canvas.width = w; canvas.height = h;
-    ctx.fillStyle = 'white';
+    canvas.width = w;
+    canvas.height = h;
+
+    // 平板/手机端 UI 适配逻辑
+    const isMobile = w < 768;
+    const isTablet = w >= 768 && w < 1024;
+    
+    // 计算 UI 占据的空间，预留充足的水平边距
+    const leftPanelReserved = isMobile ? 180 : (isTablet ? 220 : 280); 
+    const rightPanelReserved = isMobile ? 180 : (isTablet ? 220 : 280);
+    const horizontalPadding = isMobile ? 20 : 40;
+    
+    const availableW = Math.max(w - (leftPanelReserved + rightPanelReserved) - horizontalPadding, w * 0.5);
+    
+    // 垂直方向：明确避让底部的反馈框 (约占 15%) 和装饰文字
+    // 顶部也预留一部分空间 (约 10%)
+    const topMargin = h * 0.1;
+    const bottomMargin = h * 0.22; // 增加避让高度，确保文字不跑到底部
+    const availableH = h - topMargin - bottomMargin;
+
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    let fontSize = Math.min(w * 0.12, h * 0.18); 
-    if (text.length <= 2) {
-      fontSize = Math.min(w * 0.45, h * 0.65);
-    } else {
-      fontSize = Math.min(w / (text.length * 0.7), h * 0.22);
-    }
+    const lines = text.split('\n');
     
+    const getMaxFontSize = () => {
+      // 初始字号设高一点，增加视觉冲击力
+      let size = isMobile ? 160 : (isTablet ? 240 : 400); 
+      const maxIter = 100;
+      for(let i=0; i<maxIter; i++) {
+        ctx.font = `900 ${size}px "Arial Black", sans-serif`;
+        const maxWidth = lines.reduce((max, line) => Math.max(max, ctx.measureText(line).width), 0);
+        const totalHeight = lines.length * size * 1.1;
+
+        if (maxWidth <= availableW && totalHeight <= availableH) {
+          // 倒计时允许占据更多垂直空间
+          if (text.length <= 2 && totalHeight < availableH * 0.85) {
+             size += 2;
+             continue;
+          }
+          return size;
+        }
+        size -= 4;
+        if (size <= 20) return 20;
+      }
+      return size;
+    };
+
+    const fontSize = getMaxFontSize();
     ctx.font = `900 ${fontSize}px "Arial Black", sans-serif`;
     ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'white';
     
-    const lines = text.split('\n');
+    // 强制居中点在 48% 处，既平衡了顶部 Sidebar，也完美避开了底部 Feedback
+    const centerY = h * 0.48;
+    
     lines.forEach((line, i) => {
         const yOffset = (i - (lines.length - 1) / 2) * fontSize * 1.05;
-        ctx.fillText(line, w / 2, h / 2 + yOffset);
+        ctx.fillText(line, w / 2, centerY + yOffset);
     });
 
     const imageData = ctx.getImageData(0, 0, w, h);
@@ -109,6 +150,7 @@ const ParticleCanvas: React.FC<Props> = ({ appState, countdownValue, config, onL
         if (data[(y * w + x) * 4 + 3] > 128) points.push({ x, y });
       }
     }
+    
     points.sort(() => Math.random() - 0.5);
     const result: {x: number, y: number}[] = [];
     if (points.length === 0) return Array(count).fill({x: w/2, y: h/2});
@@ -151,7 +193,7 @@ const ParticleCanvas: React.FC<Props> = ({ appState, countdownValue, config, onL
       
       const getTargetColor = (idx: number) => {
         if (appState === AppState.BYE_2025) return PALETTES.cool[idx % PALETTES.cool.length];
-        if (appState === AppState.COUNTDOWN) return PALETTES.countdown; // Use the specific #ccf279
+        if (appState === AppState.COUNTDOWN) return PALETTES.countdown;
         const p = PALETTES[palette];
         return p[idx % p.length];
       };

@@ -21,15 +21,15 @@ const Sidebar: React.FC<SidebarProps> = ({ config, setConfig, appState, setAppSt
   };
 
   return (
-    <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 flex flex-col gap-2 sm:gap-4 p-4 sm:p-6 bg-black/60 backdrop-blur-md rounded-2xl border border-white/10 w-[220px] sm:w-72 max-h-[85vh] sm:max-h-[calc(100vh-2rem)] overflow-y-auto transition-all hover:bg-black/80">
-      <h2 className="text-base sm:text-xl font-bold text-white/80 uppercase tracking-tighter mb-1">
+    <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 flex flex-col gap-2 sm:gap-3 p-3 sm:p-5 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 w-44 sm:w-64 max-h-[85vh] sm:max-h-[calc(100vh-2rem)] overflow-y-auto transition-all hover:bg-black/80">
+      <h2 className="text-sm sm:text-lg font-bold text-white/80 uppercase tracking-tighter mb-0.5">
         ⚙️ Vibe Settings
       </h2>
 
-      <div className="space-y-3 sm:space-y-4">
+      <div className="space-y-2 sm:space-y-3">
         {/* Particle Density */}
-        <div className="space-y-1 sm:space-y-2">
-          <label className="text-[9px] sm:text-xs text-white/60 uppercase tracking-wider block font-medium">Density: {config.particleDensity}</label>
+        <div className="space-y-0.5 sm:space-y-1">
+          <label className="text-[8px] sm:text-[10px] text-white/60 uppercase tracking-wider block font-medium">Density: {config.particleDensity}</label>
           <input 
             type="range" 
             min="1000" max="8000" step="500"
@@ -40,8 +40,8 @@ const Sidebar: React.FC<SidebarProps> = ({ config, setConfig, appState, setAppSt
         </div>
 
         {/* Particle Size */}
-        <div className="space-y-1 sm:space-y-2">
-          <label className="text-[9px] sm:text-xs text-white/60 uppercase tracking-wider block font-medium">Size: {config.particleSize.toFixed(1)}</label>
+        <div className="space-y-0.5 sm:space-y-1">
+          <label className="text-[8px] sm:text-[10px] text-white/60 uppercase tracking-wider block font-medium">Size: {config.particleSize.toFixed(1)}</label>
           <input 
             type="range" 
             min="0.5" max="5" step="0.1"
@@ -52,8 +52,8 @@ const Sidebar: React.FC<SidebarProps> = ({ config, setConfig, appState, setAppSt
         </div>
 
         {/* Background Alpha/Fluidity */}
-        <div className="space-y-1 sm:space-y-2">
-          <label className="text-[9px] sm:text-xs text-white/60 uppercase tracking-wider block font-medium">Fluidity (Fade): {config.bgAlpha.toFixed(2)}</label>
+        <div className="space-y-0.5 sm:space-y-1">
+          <label className="text-[8px] sm:text-[10px] text-white/60 uppercase tracking-wider block font-medium">Fluidity: {config.bgAlpha.toFixed(2)}</label>
           <input 
             type="range" 
             min="0.05" max="0.5" step="0.01"
@@ -64,14 +64,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, setConfig, appState, setAppSt
         </div>
 
         {/* Palette Selection */}
-        <div className="space-y-2 pt-2 border-t border-white/10">
-          <label className="text-[9px] sm:text-xs text-white/60 uppercase tracking-wider block font-medium">Color Theme</label>
-          <div className="flex gap-2">
+        <div className="space-y-1.5 pt-1.5 border-t border-white/10">
+          <label className="text-[8px] sm:text-[10px] text-white/60 uppercase tracking-wider block font-medium">Color Theme</label>
+          <div className="flex gap-1.5">
             {(['sunset', 'gold', 'rosegold'] as const).map(p => (
               <button
                 key={p}
                 onClick={() => setConfig(prev => ({ ...prev, palette: p }))}
-                className={`flex-1 h-6 sm:h-8 rounded-full border-2 transition-all ${config.palette === p ? 'border-white scale-105' : 'border-transparent opacity-60'}`}
+                className={`flex-1 h-5 sm:h-7 rounded-lg border-2 transition-all ${config.palette === p ? 'border-white scale-105' : 'border-transparent opacity-60'}`}
                 style={{ background: p === 'sunset' ? '#f59d2a' : p === 'gold' ? '#FFD700' : '#fccfee' }}
               />
             ))}
@@ -79,28 +79,28 @@ const Sidebar: React.FC<SidebarProps> = ({ config, setConfig, appState, setAppSt
         </div>
 
         {/* Camera Toggle */}
-        <div className="flex items-center justify-between pt-1 sm:pt-2">
-          <span className="text-[9px] sm:text-xs text-white/60 uppercase tracking-wider font-medium">Show Camera</span>
+        <div className="flex items-center justify-between pt-1 sm:pt-1.5">
+          <span className="text-[8px] sm:text-[10px] text-white/60 uppercase tracking-wider font-medium">Show Camera</span>
           <button 
             onClick={() => setConfig(prev => ({ ...prev, showCamera: !prev.showCamera }))}
-            className={`w-9 sm:w-12 h-4 sm:h-6 rounded-full p-1 transition-colors`}
+            className={`w-8 sm:w-10 h-3.5 sm:h-5 rounded-full p-0.5 transition-colors`}
             style={{ backgroundColor: config.showCamera ? '#d4cdd3' : '#374151' }}
           >
-            <div className={`w-2.5 sm:w-4 h-2.5 sm:h-4 bg-white rounded-full transition-transform ${config.showCamera ? 'translate-x-4.5 sm:translate-x-6' : 'translate-x-0'}`} />
+            <div className={`w-2.5 sm:w-4 h-2.5 sm:h-4 bg-white rounded-full transition-transform ${config.showCamera ? 'translate-x-4 sm:translate-x-5' : 'translate-x-0'}`} />
           </button>
         </div>
 
         {/* Manual State Toggle */}
-        <div className="pt-2 sm:pt-4 flex flex-wrap gap-2">
+        <div className="pt-2 sm:pt-3 flex flex-wrap gap-1.5">
           <button 
             onClick={() => setAppState(AppState.BYE_2025)}
-            className="text-[8px] sm:text-[10px] px-3 py-1 bg-white/10 border border-white/10 rounded-md hover:bg-white/20 transition-colors text-white/80"
+            className="text-[7px] sm:text-[9px] px-2 py-1 bg-white/10 border border-white/10 rounded-md hover:bg-white/20 transition-colors text-white/80"
           >
             Reset
           </button>
           <button 
             onClick={() => setAppState(AppState.HAPPY_2026)}
-            className="text-[8px] sm:text-[10px] px-3 py-1 bg-white/10 border border-white/10 rounded-md text-white font-bold uppercase tracking-wider hover:bg-white/20 transition-all force-boom-shadow"
+            className="text-[7px] sm:text-[9px] px-2 py-1 bg-white/10 border border-white/10 rounded-md text-white font-bold uppercase tracking-wider hover:bg-white/20 transition-all force-boom-shadow"
           >
             Force Boom
           </button>
