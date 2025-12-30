@@ -1,0 +1,7 @@
+{
+  "name": "New Year Particle Alchemy 2026",
+  "description": "A high-performance gesture-controlled particle interaction app for the 2026 New Year countdown, featuring MediaPipe hand tracking and fluid physics.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
